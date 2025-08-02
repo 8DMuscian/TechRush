@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthaSetu - Multi Clinic Doctor Appointment System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .stat-counter {
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+
+<body class=" bg-white transition-colors duration-300 ">
+    <!-- Navigation -->
+    <nav
+        class="bg-white  border-b border-gray-600 shadow-lg fixed w-full top-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div 
+                        class="bg-teal-500 text-white p-2 rounded-md mr-3 w-10 h-10 ">
+
+                        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                        <lord-icon src="https://cdn.lordicon.com/nvsfzbop.json" trigger="loop" stroke="bold"
+                            colors="primary:#2563EB,secondary:#ffffff" style="width:100%;height:100%">
+                        </lord-icon>
+
+                    </div>
+                    <div class="flex">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-blue-600">Swastha<h1
+                                class="text-2xl font-bold text-teal-300">Setu</h1>
+                        </h1>
+                    </div>
+                </div>
+                <div id="mobileMenu"
+                    class=" hidden w-full backdrop-blur-[10px] border border-gray-800 bg-gray-950/10  shadow-lg   fixed top-0 right-0 flex flex-col pl-4 items-start min-h-screen md:w-1/2  justify-start pt-6 transition all ease-in-out duration-500 ">
+                    <svg onclick=closeSB() id="close" class="w-6 h-6  text-2xl p-0 mb-4 text-white" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <a href="#doctors"
+                        class="text-gray-100  hover:text-blue-600  text-3xl transition-colors">Doctors</a>
+                    <a href="#clinics"
+                        class="text-gray-600  hover:text-blue-600 dark:hover:text-blue-500 text-3xl transition-colors">Clinics</a>
+                    <a href="#about"
+                        class="text-gray-600  hover:text-blue-600 dark:hover:text-teal-400 text-3xl transition-colors">About</a>
+                    <a href="#contact"
+                        class="text-gray-600 hover:text-blue-600 dark:hover:text-teal-400 text-3xl transition-colors">Contact</a>
+                    <script>
+                        const mobileMenu = document.querySelector("#mobileMenu")
+                        function showMenu() {
+
+                            mobileMenu.classList.remove("hidden")
+
+
+                        }
+                        function closeSB() {
+
+                            mobileMenu.classList.add("hidden")
+
+                        }
+
+                        // document.addEventListener('click', function(e) {
+                        //     if (!mobileMenu.contains(e.target)) {
+                        //         closeSB();
+                        //     }
+                        // });
+
+                    </script>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#doctors"
+                        class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Doctors</a>
+                    <a href="#clinics"
+                        class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Clinics</a>
+                    <a href="#about"
+                        class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">About</a>
+                    <a href="#contact"
+                        class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">Contact</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="themeToggle"
+                        class="bg-gray-200  hover:bg-gray-300  text-gray-800  px-2 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2">
+                        <svg id="sunIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <svg id="moonIcon" class="w-4 h-5 hidden text-2xl" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button id="profileDropdown"
+                            class="flex items-center space-x-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                        </button>
+                        <div id="profileMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                            <div class="py-2">
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Login
+                                </a>
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                                    </svg>
+                                    Register
+                                </a>
+                                <hr class="my-2 border-gray-200 dark:border-gray-600">
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Profile
+                                </a>
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                        <path fill-rule="evenodd"
+                                            d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Appointments
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button onclick=showMenu() id="mobileMenuBtn" class="text-gray-600 dark:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-white pt-12 md:pt-20  mx-auto min-h-screen  relative overflow-hidden ">
+        <div class="absolute inset-0 "></div>
+        <div class="max-w-7xl m-auto md:py-4 px-4 sm:px-6 lg:px-8 relative z-10 ">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-20  mb-10">
+                <div class="text-start  lg:text-left animate-fadeIn">
+                    <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight text-[#0F8BFF]">
+                        Book Your Doctor Appointment
+                        <span class="text-[#00DDB3]">Instantly</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-800 leading-relaxed">
+                        Connect with top doctors across multiple clinics. Schedule appointments at your convenience with
+                        our easy-to-use booking system.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button id="bookNowBtn" onclick="location.href='/clinic/doctors/appointment'"
+                            class="bg-[#00DDB3] text-teal-50  px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg hover:shadow-teal-500/50  transition duration-300">
+                            Book Appointment Now
+                        </button>
+                        <button
+                            class="border-2 border-[#0F8BFF] text-gray-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#0F8BFF] hover:text-blue-200 transition-colors">
+                            For Doctors
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="flex justify-center py8 align-center aspect-video lg:justify-end  aspect-video animate-fadeIn">
+                    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
+                        type="module"></script>
+                    <dotlottie-wc src="https://lottie.host/3485ca75-0cbe-44c8-abb7-be88bb932078/seuflJEMJ2.lottie"
+                        style="aspect-ratio:16/9;" speed="1" autoplay loop></dotlottie-wc>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-gray-50  py-3 animate-fadeIn">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-teal-500 mb-2 stat-counter">50+</div>
+                    <p class="text-gray-600  font-medium">Expert Doctors</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2 stat-counter">20+</div>
+                    <p class="text-gray-600  font-medium">Clinic Locations</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2 stat-counter">10K+</div>
+                    <p class="text-gray-600  font-medium">Happy Patients</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-teal-500 mb-2 stat-counter">24/7</div>
+                    <p class="text-gray-600  font-medium">Online Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section id="doctors"
+        class="scroll-mt-10 py-20 bg-white min-h-screen  animate-fadeIn transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900  mb-4">Meet Our Expert Doctors</h2>
+                <p class="text-xl text-gray-600  max-w-3xl mx-auto">
+                    Our team of experienced healthcare professionals is dedicated to providing you with the best medical
+                    care
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="feature-card bg-gray-100  rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class=" text-blue-600 font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+                <div
+                    class="feature-card bg-gray-100 rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class="text-blue-600  font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+                <div
+                    class="feature-card bg-gray-100 rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class="text-blue-600  font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+                <div
+                    class="feature-card bg-gray-100 rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class="text-blue-600  font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+                <div
+                    class="feature-card bg-gray-100 rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class="text-blue-600  font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+                <div
+                    class="feature-card bg-gray-100 rounded-xl shadow-lg p-8 pt-0 border border-gray-100  transition duration-500 ease-in-out">
+                    <div class="text-center mb-6">
+
+
+                        <dotlottie-wc src="https://lottie.host/52461883-9be5-4b80-a376-32f6212e8762/W2pD2qrbD1.lottie"
+                            style="width: 100%;height: 100%" speed="1" autoplay loop></dotlottie-wc>
+
+
+                        <h3 class="text-xl font-bold text-gray-900  mb-2">Dr. Sarah Johnson</h3>
+                        <p class="text-blue-600  font-medium mb-2">Internal Medicine</p>
+                        <p class="text-sm text-gray-600  mb-4">15+ years experience</p>
+                    </div>
+                    <p class="text-gray-600  text-center">Specializes in preventive care, chronic
+                        disease management, and comprehensive health assessments.</p>
+                    <div class="mt-4 text-center">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Available
+                            Today</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Clinics Section -->
+    <section id="clinics" class="scroll-mt-20 animate-fadeIn mb-4 py-20  bg-gray-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900  mb-4">Our Partner Clinics</h2>
+                <p class="text-xl text-gray-600  max-w-3xl mx-auto">
+                    Premium healthcare facilities with state-of-the-art equipment and experienced medical professionals
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-blue-100  text-blue-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Aura Hospital</h3>
+                    <p class="text-gray-600  mb-4">Full-service medical center</p>
+                    <p class="text-sm text-gray-500 ">15+ Specialists Available</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-green-100  text-green-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Krushnamai Hospital</h3>
+                    <p class="text-gray-600  mb-4">Family practice clinic</p>
+                    <p class="text-sm text-gray-500 ">Pediatric & Geriatric Care</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-purple-100  text-purple-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                            <path fill-rule="evenodd"
+                                d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Apollo Hospital</h3>
+                    <p class="text-gray-600  mb-4">Comprehensive care</p>
+                    <p class="text-sm text-gray-500 ">Family Medicine & Urgent Care</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-red-100  text-red-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Eastside Specialty</h3>
+                    <p class="text-gray-600 -300 mb-4">Specialized treatments</p>
+                    <p class="text-sm text-gray-500 ">Cardiology & Orthopedics</p>
+                </div>
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-blue-100  text-blue-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Aura Hospital</h3>
+                    <p class="text-gray-600  mb-4">Full-service medical center</p>
+                    <p class="text-sm text-gray-500 ">15+ Specialists Available</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-green-100  text-green-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Krushnamai Hospital</h3>
+                    <p class="text-gray-600  mb-4">Family practice clinic</p>
+                    <p class="text-sm text-gray-500 ">Pediatric & Geriatric Care</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-purple-100  text-purple-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                            <path fill-rule="evenodd"
+                                d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Apollo Hospital</h3>
+                    <p class="text-gray-600  mb-4">Comprehensive care</p>
+                    <p class="text-sm text-gray-500 ">Family Medicine & Urgent Care</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-red-100  text-red-600  p-4 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                clip-rule="evenodd" />
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900  mb-2">Eastside Specialty</h3>
+                    <p class="text-gray-600  mb-4">Specialized treatments</p>
+                    <p class="text-sm text-gray-500 ">Cardiology & Orthopedics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about"
+        class="scroll-mt-10 py-20 bg-white animate-fadeIn  transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900  mb-6">About MediBook</h2>
+                    <p class="text-lg text-gray-600  mb-6">
+                        MediBook is revolutionizing healthcare accessibility by connecting patients with top medical
+                        professionals across multiple clinic locations. Our platform makes it easier than ever to find,
+                        book, and manage your healthcare appointments.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8">
+                        With over 50 expert doctors, 4 premium clinic locations, and 24/7 online support, we're
+                        committed to providing you with the best healthcare experience possible.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">2019</div>
+                            <p class="text-gray-600 ">Founded</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-600 mb-2">99%</div>
+                            <p class="text-gray-600 ">Patient Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from from-blue-600 to-teal-500   rounded-2xl p-8">
+                    <div class="text-center">
+                        <div
+                            class="bg-blue-50/25 text-white p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-50  mb-4">Our Mission</h3>
+                        <p class="text-gray-100 ">
+                            To make quality healthcare accessible, convenient, and stress-free for everyone in our
+                            community through innovative technology and compassionate care.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 scroll-mt-10 animate-fadeIn bg-gray-50  transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900  mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-600  max-w-3xl mx-auto">
+                    Have questions? Need help with booking? Our support team is here to assist you 24/7
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-blue-100  text-blue-600  p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900  mb-2">Phone Support</h3>
+                    <p class="text-gray-600  mb-2">+917774061010</p>
+                    <p class="text-sm text-gray-500 ">24/7 Available</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-green-100  text-green-600  p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900  mb-2">Email Support</h3>
+                    <p class="text-gray-600  mb-2">support@swasthasetu.com</p>
+                    <p class="text-sm text-gray-500 ">Response within 2 hours</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-purple-100  text-purple-600  p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900  mb-2">Main Office</h3>
+                    <p class="text-gray-600  mb-2">123 Dhankawadi Pune</p>
+                    <p class="text-sm text-gray-500 ">Off. Timing : 10:00 am to 12:00 Pm</p>
+                </div>
+
+                <div
+                    class="bg-white  rounded-xl shadow-lg p-6 text-center transition-colors duration-300">
+                    <div
+                        class="bg-red-100  text-red-600  p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900  mb-2">Emergency</h3>
+                    <p class="text-gray-600  mb-2">108</p>
+                    <p class="text-sm text-gray-500 ">For urgent medical needs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-700 text-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-teal-500 text-white p-2 rounded-md mr-3 w-10 h-10">
+
+                            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                            <lord-icon src="https://cdn.lordicon.com/nvsfzbop.json" trigger="loop" stroke="bold"
+                                colors="primary:#2563EB,secondary:#ffffff" style="width:100%;height:100%">
+                            </lord-icon>
+
+                        </div>
+                        <h3 class="text-xl font-bold">SwasthaSetu</h3>
+                    </div>
+                    <p class="text-gray-600">Making healthcare accessible and convenient for everyone.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-white transition-colors">Book Appointment</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Find Doctors</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Clinic Locations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Emergency Care</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-gray-600">
+                        <p>📞 +917774061010</p>
+                        <p>✉️ support@swasthasetu.com</p>
+                        <p>📍 123 Dhankawadi Pune</p>
+                        <p>🕒 24/7 Support Available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-600">
+                <p>&copy; 2025 SwasthaSetu. All rights reserved. | Designed for better healthcare access.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="/javascripts/indexBrain.js"></script>
+</html>
