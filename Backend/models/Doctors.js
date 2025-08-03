@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/SwasthaSetu");
+mongoose.connect(
+  "mongodb+srv://PrathamKharade:Dadu123@8dscluster.afxgmhi.mongodb.net/SwasthaSetu?retryWrites=true&w=majority&appName=8DsCluster"
+);
 
 const doctorSchema = new mongoose.Schema({
   name: {

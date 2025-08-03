@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-mongoose.connect("");
+mongoose.connect(
+  "mongodb+srv://PrathamKharade:Dadu123@8dscluster.afxgmhi.mongodb.net/?retryWrites=true&w=majority&appName=8DsCluster"
+);
 
 const ApptSchema = new mongoose.Schema({
   username: {
