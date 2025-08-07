@@ -69,7 +69,7 @@ router.get("/book", isLoggedIn, async (req, res) => {
   res.render("hospitalList", { hospitals });
 });
 
-router.get("/book/:id", async (req, res) => {
+router.get("/book/:id", isLoggedIn, async (req, res) => {
   try {
     const hospitalDoc = await Hospitals.findById(req.params.id).populate(
       "doctors"
