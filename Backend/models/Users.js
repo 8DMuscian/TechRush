@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
+
 mongoose.connect(
   "mongodb+srv://PrathamKharade:Dadu123@8dscluster.afxgmhi.mongodb.net/SwasthaSetu?retryWrites=true&w=majority&appName=8DsCluster"
 );
+
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    fullname: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     email: {
@@ -17,14 +19,24 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    fullname: {
+
+    phone: {
       type: String,
       required: true,
-      trim: true,
     },
+
+    bloodGrp: {
+      type: String,
+      required: true,
+      enum: ["A+", "B+", "O+", "AB+", "A-", "B-", "O-", "AB-"],
+    },
+
+    dob: { type: String, required: true },
+    insurance: { type: String, required: true },
+
     dp: {
-      type: String, // URL of profile picture
-      default: "", // Optional: set default to empty
+      type: String,
+      default: "",
     },
     Appt: [
       {
@@ -32,10 +44,18 @@ const UserSchema = new mongoose.Schema(
         ref: "Appointment",
       },
     ],
+
+    clinic: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hospital",
+      required: true,
+    },
   },
-  {
-    timestamps: true, // Automatically adds createdAt and updatedAt
-  }
+  { timestamps: true }
 );
+
+UserSchema.plugin(passportLocalMongoose, {
+  usernameField: "email",
+});
 
 module.exports = mongoose.model("Users", UserSchema);

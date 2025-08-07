@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - SwasthSetu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 p-2 bg-teal-400 rounded-lg flex items-center justify-center">
+                        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                        <lord-icon src="https://cdn.lordicon.com/nvsfzbop.json" trigger="loop" stroke="bold"
+                            colors="primary:#2563EB,secondary:#ffffff" style="width:100%;height:100%">
+                        </lord-icon>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-semibold text-gray-900">Dr. <%= doctor.name %></h1>
+                        <p class="text-sm text-gray-500"><%= doctor.speciality %> Department</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Today: <span class="font-medium"><%= date %></span></span>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center">
+                        <img src="<%= doctor.profilePicture %>" class="w-full h-full" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Today's Appointments</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= stats.total %></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Completed</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= stats.completed %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-900">Pending</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= stats.pending %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-900">Cancelled</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= stats.cancelled %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-gray-900">Today's Appointments</h2>
+                    <div class="flex space-x-3">
+                        <select id="statusFilter" onchange="filterAppointments()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                        </select>
+
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="appointmentsTable">
+                        <!-- Appointments will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Reschedule Modal -->
+    <div id="rescheduleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Reschedule Appointment</h3>
+                <button onclick="closeRescheduleModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
+                    <input type="text" id="reschedulePatientName" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">New Date</label>
+                    <input type="date" id="rescheduleDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">New Time</label>
+                    <select type="time" id="rescheduleTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option disabled selected>Select time</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Reason (Optional)</label>
+                    <textarea id="rescheduleReason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Reason for rescheduling..."></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 mt-6">
+                <button onclick="closeRescheduleModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="confirmReschedule()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Reschedule
+                </button>
+            </div>
+        </div>
+    </div>
+<script>
+    const slots = [
+    "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
+    "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM",
+    "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
+    "5:00 PM", "5:30 PM"
+  ];
+
+  document.getElementById('rescheduleDate').addEventListener('change', async function () {
+    const selectedDate = this.value;
+    const appointment = appointments.find(a => a._id === currentAppointmentId);
+    const doctorId = appointment.doctor?._id || appointment.doctor;
+
+    if (!doctorId || !selectedDate) return;
+
+    try {
+      const res = await fetch(`/api/booked-slots?date=${selectedDate}&doctorId=${doctorId}`);
+      const booked = await res.json();
+      populateTimeSlots(booked);
+    } catch (err) {
+      console.error('Failed to load booked slots', err);
+    }
+  });
+
+  function populateTimeSlots(bookedSlots = []) {
+    const timeInput = document.getElementById('rescheduleTime');
+    timeInput.innerHTML = ''; // Clear previous options
+
+    slots.forEach(slot => {
+      const option = document.createElement('option');
+      option.value = slot;
+      option.textContent = slot;
+
+      if (bookedSlots.includes(slot)) {
+        option.disabled = true;
+        option.textContent += ' (Booked)';
+      }
+
+      timeInput.appendChild(option);
+    });
+  }
+
+</script>
+
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Cancel Appointment</h3>
+                <button onclick="closeCancelModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
+                    <input type="text" id="cancelPatientName" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cancellation Reason</label>
+                    <textarea id="cancelReason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Reason for cancellation..." required></textarea>
+                </div>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                    <p class="text-sm text-red-700">⚠️ This action cannot be undone. The patient will be notified of the cancellation.</p>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 mt-6">
+                <button onclick="closeCancelModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Keep Appointment
+                </button>
+                <button onclick="confirmCancel()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    Cancel Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+            
+        const appointments = <%- JSON.stringify(appointments) %>;
+
+  
+    
+
+        let currentAppointmentId = null;
+
+        // Render appointments table
+function renderAppointments(status = "all") {
+  const tableBody = document.getElementById("appointmentsTable");
+  tableBody.innerHTML = "";
+
+  const filtered = status === "all" ? appointments : appointments.filter(a => a.status === status);
+
+  if (filtered.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-gray-500">No appointments found.</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(appt => {
+    const row = document.createElement("tr");
+    row.className = "hover:bg-gray-50 transition-colors";
+
+    const dateObj = new Date(appt.date);
+    const formattedDate = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+    const statusColor = {
+      pending: "bg-yellow-100 text-yellow-800",
+      completed: "bg-green-100 text-green-800",
+      cancelled: "bg-red-100 text-red-800"
+    };
+
+    row.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap">
+        <div class="flex items-center">
+          <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <span class="text-sm font-medium text-gray-600">${(appt.user?.fullname || 'NA').split(" ").map(n => n[0]).join("")}</span>
+          </div>
+          <div class="ml-4">
+            <div class="text-sm font-medium text-gray-900">${appt.user?.fullname}</div>
+            <div class="text-sm text-gray-500">${appt.user?.phone}</div>
+          </div>
+        </div>
+      </td>
+      <td class="px-6 py-4 text-sm text-gray-900 font-medium">${formattedDate}</td>
+      <td class="px-6 py-4 text-sm text-gray-900 font-medium">${appt.time}</td>
+      <td class="px-6 py-4">
+        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${statusColor[appt.status]}">
+          ${appt.status.charAt(0).toUpperCase() + appt.status.slice(1)}
+        </span>
+      </td>
+      <td class="px-6 py-4 text-sm font-medium">
+        <div class="flex space-x-2">
+          ${appt.status === "pending" ? `
+            <button onclick="openRescheduleModal('${appt._id}', '${appt.user?.fullname}')" class="text-blue-600 hover:text-blue-900">Reschedule</button>
+            <button onclick="openCancelModal('${appt._id}', '${appt.user?.fullname}')" class="text-red-600 hover:text-red-900">Cancel</button>
+            <button onclick="markCompleted('${appt._id}')" class="text-green-600 hover:text-green-900">Complete</button>
+          ` : appt.status === "completed" ? `<span class="text-gray-400">Completed</span>` : `<span class="text-gray-400">Cancelled</span>`}
+        </div>
+      </td>
+    `;
+
+    tableBody.appendChild(row);
+  });
+}
+
+function filterAppointments() {
+  const status = document.getElementById("statusFilter").value;
+  renderAppointments(status);
+}
+
+
+        // Open reschedule modal
+        function openRescheduleModal(appointmentId) {
+            currentAppointmentId = appointmentId;
+            const appointment = appointments.find(a => a._id === appointmentId);
+            
+            document.getElementById('reschedulePatientName').value = appointment.user?.fullname;
+            document.getElementById('rescheduleModal').classList.remove('hidden');
+            document.getElementById('rescheduleModal').classList.add('flex');
+        }
+
+        // Close reschedule modal
+        function closeRescheduleModal() {
+            document.getElementById('rescheduleModal').classList.add('hidden');
+            document.getElementById('rescheduleModal').classList.remove('flex');
+            currentAppointmentId = null;
+        }
+
+        // Confirm reschedule
+async function confirmReschedule() {
+  const newDate = document.getElementById("rescheduleDate").value;
+  const newTime = document.getElementById("rescheduleTime").value;
+  const reason = document.getElementById("rescheduleReason").value;
+
+  if (!newDate || !newTime) {
+    alert("Please select both date and time for rescheduling.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/appointments/${currentAppointmentId}/reschedule`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        newDate,
+        newTime,
+        reason,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Reschedule failed");
+
+    showNotification("Appointment rescheduled", "success");
+    closeRescheduleModal();
+    location.reload();
+  } catch (err) {
+    showNotification("Failed to reschedule", "error");
+  }
+}
+
+
+        // Open cancel modal
+        function openCancelModal(appointmentId) {
+            currentAppointmentId = appointmentId;
+            const appointment = appointments.find(a => a._id === appointmentId);
+            
+            document.getElementById('cancelPatientName').value = appointment.user.fullname;
+            document.getElementById('cancelModal').classList.remove('hidden');
+            document.getElementById('cancelModal').classList.add('flex');
+        }
+
+        // Close cancel modal
+        function closeCancelModal() {
+            document.getElementById('cancelModal').classList.add('hidden');
+            document.getElementById('cancelModal').classList.remove('flex');
+            currentAppointmentId = null;
+        }
+
+        // Confirm cancel
+  async function confirmCancel() {
+  const reason = document.getElementById("cancelReason").value.trim();
+
+  if (!reason) {
+    alert("Please provide a reason for cancellation.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/appointments/${currentAppointmentId}/cancel`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reason }),
+    });
+
+    if (!res.ok) throw new Error("Cancel failed");
+
+    showNotification("Appointment cancelled", "error");
+    closeCancelModal();
+    location.reload();
+  } catch (err) {
+    showNotification("Cancellation failed", "error");
+  }
+}
+
+
+        // Mark appointment as completed
+        async function markCompleted(apptId) {
+  try {
+    const res = await fetch(`/api/appointments/${apptId}/complete`, {
+      method: "PUT",
+    });
+
+    if (!res.ok) throw new Error("Error completing appointment");
+
+    showNotification("Appointment marked as completed", "success");
+    location.reload(); // refresh to reflect status
+  } catch (err) {
+    showNotification("Failed to complete appointment", "error");
+  }
+}
+
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-medium z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize the dashboard
+        renderAppointments();
+
+        
+    </script>
+</html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Registration - Swastha</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="website icon" href="/images/logo.png" type="png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -78,15 +79,15 @@
                             clip-rule="evenodd" />
                     </svg>
                     <a href="/"
-                        class="text-gray-100  hover:text-blue-600  text-3xl transition-colors">Home</a>
+                        class="text-gray-50  hover:text-blue-600  text-3xl transition-colors">Home</a>
                     <a href="/#doctors"
-                        class="text-gray-100  hover:text-blue-600  text-3xl transition-colors">Doctors</a>
+                        class="text-gray-50  hover:text-blue-600  text-3xl transition-colors">Doctors</a>
                     <a href="/#clinics"
-                        class="text-gray-600  hover:text-blue-600 dark:hover:text-blue-500 text-3xl transition-colors">Clinics</a>
+                        class="text-gray-50  hover:text-blue-500 text-3xl transition-colors">Clinics</a>
                     <a href="/#about"
-                        class="text-gray-600  hover:text-blue-600 dark:hover:text-teal-400 text-3xl transition-colors">About</a>
+                        class="text-gray-50  hover:text-teal-400 text-3xl transition-colors">About</a>
                     <a href="/#contact"
-                        class="text-gray-600 hover:text-blue-600 dark:hover:text-teal-400 text-3xl transition-colors">Contact</a>
+                        class="text-gray-50 hover:text-teal-400 text-3xl transition-colors">Contact</a>
                     <script>
                         const mobileMenu = document.querySelector("#mobileMenu")
                         function showMenu() {
@@ -96,16 +97,19 @@
 
                         }
                         function closeSB() {
-
+                            
                             mobileMenu.classList.add("hidden")
 
                         }
 
-                        // document.addEventListener('click', function(e) {
-                        //     if (!mobileMenu.contains(e.target)) {
+                        // document.addEventListener('click', function (e) {
+                        //     // If clicked inside the menu (e.g., on a menu item)
+                        //     // OR clicked outside the menu (not within it)
+                        //     if (mobileMenu.contains(e.target) || !mobileMenu.contains(e.target)) {
                         //         closeSB();
                         //     }
                         // });
+
 
                     </script>
                 </div>
@@ -218,7 +222,7 @@
 
         <!-- Registration Form -->
         <div class=" rounded-2xl form-shadow p-8 md:p-12">
-            <form action="/register" method="POST" id="doctorForm" enctype="multipart/form-data" class="space-y-6">
+            <form action="/doctor/register" method="POST" id="doctorForm" enctype="multipart/form-data" class="space-y-6">
                 <!-- Personal Information Section -->
                 <div class="border-b border-gray-200 pb-6">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-10 flex items-center">
@@ -290,20 +294,35 @@
                             <select id="speciality" name="speciality" required 
                                     class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                 <option value="">Select Speciality</option>
-                                <option value="cardiology">Cardiology</option>
-                                <option value="dermatology">Dermatology</option>
-                                <option value="endocrinology">Endocrinology</option>
-                                <option value="gastroenterology">Gastroenterology</option>
-                                <option value="general-practice">General Practice</option>
-                                <option value="neurology">Neurology</option>
-                                <option value="oncology">Oncology</option>
-                                <option value="orthopedics">Orthopedics</option>
-                                <option value="pediatrics">Pediatrics</option>
-                                <option value="psychiatry">Psychiatry</option>
-                                <option value="radiology">Radiology</option>
-                                <option value="surgery">Surgery</option>
-                                <option value="other">Other</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Dermatology">Dermatology</option>
+                                <option value="Endocrinology">Endocrinology</option>
+                                <option value="Gastroenterology">Gastroenterology</option>
+                                <option value="General-practice">General Practice</option>
+                                <option value="Neurology">Neurology</option>
+                                <option value="Oncology">Oncology</option>
+                                <option value="Orthopedics">Orthopedics</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                                <option value="Psychiatry">Psychiatry</option>
+                                <option value="Radiology">Radiology</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Other">Other</option>
                             </select>
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                            <input type="password" id="password" name="password" required 
+                                   class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Enter secure password"
+                                   minlength="8">
+                        </div>
+                        
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required 
+                                   class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                   placeholder="Confirm your password"
+                                   minlength="8">
                         </div>
                     </div>
                 </div>
@@ -342,10 +361,21 @@
                         </div>
                         
                         <div class="md:col-span-2">
-                            <label for="clinic" class="block text-sm font-medium text-gray-700 mb-2">Clinic/Hospital Name *</label>
-                            <input type="text" id="clinic" name="clinic" required 
-                                   class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                   placeholder="City General Hospital">
+                            <div class="mb-4">
+  <label for="clinic" class="block text-sm font-medium text-gray-700 mb-2">Clinic</label>
+  <select
+    id="clinic"
+    name="clinic"
+    required
+    class="input-focus w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+  >
+    <option value="">Select Clinic</option>
+    <% hospitals.forEach(hospital => { %>
+      <option value="<%= hospital._id %>"><%= hospital.name %></option>
+    <% }); %>
+  </select>
+</div>
+
                         </div>
                         
                         <div class="md:col-span-2">
