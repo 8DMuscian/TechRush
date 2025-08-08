@@ -44,12 +44,6 @@ const UserSchema = new mongoose.Schema(
         ref: "Appointment",
       },
     ],
-
-    clinic: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Hospital",
-      required: true,
-    },
   },
   { timestamps: true }
 );
