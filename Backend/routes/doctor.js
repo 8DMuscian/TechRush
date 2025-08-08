@@ -55,13 +55,13 @@ router.post("/register", upload.single("profilePicture"), async (req, res) => {
       return res.send(" Email is already registered as a patient.");
     }
 
-    // 🔍 Check if email already exists in Doctors
+    //  Check if email already exists in Doctors
     const doctorEmailExists = await Doctor.findOne({ email });
     if (doctorEmailExists) {
       return res.send(" Email is already registered as a doctor.");
     }
 
-    // ✅ Create new doctor
+    //  Create new doctor
     const newDoctor = new Doctor({
       name,
       email,
@@ -82,12 +82,12 @@ router.post("/register", upload.single("profilePicture"), async (req, res) => {
       }
 
       try {
-        // ✅ Add doctor to selected hospital
+        //  Add doctor to selected hospital
         try {
           const hospital = await Hospitals.findById(clinic);
 
           if (!hospital) {
-            console.warn("⚠️ No hospital found with ID:", clinic);
+            console.warn(" No hospital found with ID:", clinic);
           } else {
             // Prevent duplicate doctor entry
             if (!hospital.doctors.includes(doctor._id)) {
