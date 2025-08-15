@@ -5,6 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
+const mongoStore = this.require("connect-mongo");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -53,6 +54,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: mongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      ttl: 1 * 24 * 60 * 60, // session lifetime in seconds (1 days)
+    }),
   })
 );
 app.use(passport.initialize());
