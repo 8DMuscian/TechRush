@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthSetu Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+        .modal-backdrop { backdrop-filter: blur(4px); }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #d1fae5; color: #065f46; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-gray-900">🏥 SwasthSetu Admin</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">Welcome, Admin</span>
+                    <div class="relative">
+                        <button onclick="toggleProfileDropdown()" class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <span class="text-white text-sm font-medium">A</span>
+                        </button>
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <span class="inline-block w-4 mr-2">🚪</span>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <span class="text-2xl">🏥</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Clinics</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="totalClinics">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <span class="text-2xl">👨‍⚕️</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Doctors</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="totalDoctors">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <span class="text-2xl">⏳</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Pending Requests</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="pendingRequests">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <span class="text-2xl">📊</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Today's Actions</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="todayActions">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8 px-6">
+                    <button onclick="switchTab('clinics')" id="clinicsTab" class="tab-active py-4 px-1 border-b-2 font-medium text-sm">
+                        Clinic Requests
+                    </button>
+                    <button onclick="switchTab('doctors')" id="doctorsTab" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700">
+                        Doctor Requests
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Clinic Requests Tab -->
+            <div id="clinicsContent" class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Clinic Registration Requests</h2>
+                    <div class="flex space-x-3">
+                        <div class="relative">
+                            <input type="text" id="clinicSearchInput" placeholder="Search clinics..." onkeyup="searchRequests('clinic')" class="border border-gray-300 rounded-md px-3 py-2 pl-10 text-sm w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <select id="clinicStatusFilter" onchange="filterRequests('clinic')" class="border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button onclick="addNewRequest('clinic')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                            Add New Clinic
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Clinic Info</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clinicTableBody" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Doctor Requests Tab -->
+            <div id="doctorsContent" class="p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Doctor Registration Requests</h2>
+                    <div class="flex space-x-3">
+                        <div class="relative">
+                            <input type="text" id="doctorSearchInput" placeholder="Search doctors..." onkeyup="searchRequests('doctor')" class="border border-gray-300 rounded-md px-3 py-2 pl-10 text-sm w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <select id="doctorStatusFilter" onchange="filterRequests('doctor')" class="border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button onclick="addNewRequest('doctor')" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700">
+                            Add New Doctor
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doctor Info</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialization</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorTableBody" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing/editing requests -->
+    <div id="requestModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-backdrop hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 id="modalTitle" class="text-lg font-semibold text-gray-900">Request Details</h3>
+                        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="modalContent" class="px-6 py-4">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                    <button onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button id="saveButton" onclick="saveRequest()" class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="documentModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-backdrop hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 id="documentModalTitle" class="text-lg font-semibold text-gray-900">Document Viewer</h3>
+                        <button onclick="closeDocumentModal()" class="text-gray-400 hover:text-gray-600">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="documentContent" class="px-6 py-4">
+                    <!-- Document content will be inserted here -->
+                </div>
+                <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
+                    <button onclick="closeDocumentModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock database
+        let clinicRequests = [
+            {
+                id: 1,
+                clinicName: "City Medical Center",
+                ownerName: "Dr. Sarah Johnson",
+                email: "sarah@citymedical.com",
+                phone: "+1-555-0123",
+                address: "123 Main St, New York, NY 10001",
+                licenseNumber: "CL-2024-001",
+                specialties: ["General Medicine", "Cardiology"],
+                establishedYear: "2020",
+                website: "www.citymedical.com",
+                description: "Full-service medical center providing comprehensive healthcare services.",
+                status: "pending",
+                submittedDate: "2024-01-15",
+                documents: ["License.pdf", "Insurance.pdf"]
+            },
+            {
+                id: 2,
+                clinicName: "Wellness Clinic",
+                ownerName: "Dr. Michael Chen",
+                email: "michael@wellness.com",
+                phone: "+1-555-0124",
+                address: "456 Oak Ave, Los Angeles, CA 90210",
+                licenseNumber: "CL-2024-002",
+                specialties: ["Family Medicine", "Pediatrics"],
+                establishedYear: "2019",
+                website: "www.wellnessclinic.com",
+                description: "Family-focused healthcare with personalized treatment plans.",
+                status: "approved",
+                submittedDate: "2024-01-10",
+                documents: ["License.pdf", "Certification.pdf"]
+            }
+        ];
+
+        let doctorRequests = [
+            {
+                id: 1,
+                firstName: "Emily",
+                lastName: "Rodriguez",
+                email: "emily.rodriguez@email.com",
+                phone: "+1-555-0125",
+                dateOfBirth: "1985-03-15",
+                gender: "Female",
+                address: "789 Pine St, Chicago, IL 60601",
+                medicalLicense: "MD-2024-001",
+                specialization: "Cardiology",
+                subSpecialty: "Interventional Cardiology",
+                yearsOfExperience: "8",
+                medicalSchool: "Harvard Medical School",
+                graduationYear: "2016",
+                residency: "Mayo Clinic",
+                fellowship: "Cleveland Clinic",
+                boardCertifications: ["American Board of Internal Medicine", "American Board of Cardiovascular Disease"],
+                currentHospital: "Chicago General Hospital",
+                languages: ["English", "Spanish"],
+                biography: "Experienced cardiologist specializing in interventional procedures with focus on patient-centered care.",
+                status: "pending",
+                submittedDate: "2024-01-12",
+                documents: ["Medical_License.pdf", "CV.pdf", "Certifications.pdf"]
+            },
+            {
+                id: 2,
+                firstName: "David",
+                lastName: "Kim",
+                email: "david.kim@email.com",
+                phone: "+1-555-0126",
+                dateOfBirth: "1980-07-22",
+                gender: "Male",
+                address: "321 Elm St, Boston, MA 02101",
+                medicalLicense: "MD-2024-002",
+                specialization: "Pediatrics",
+                subSpecialty: "Pediatric Oncology",
+                yearsOfExperience: "12",
+                medicalSchool: "Johns Hopkins School of Medicine",
+                graduationYear: "2012",
+                residency: "Boston Children's Hospital",
+                fellowship: "St. Jude Children's Research Hospital",
+                boardCertifications: ["American Board of Pediatrics", "American Board of Pediatric Hematology-Oncology"],
+                currentHospital: "Boston Children's Hospital",
+                languages: ["English", "Korean"],
+                biography: "Dedicated pediatric oncologist committed to providing compassionate care for children with cancer.",
+                status: "approved",
+                submittedDate: "2024-01-08",
+                documents: ["Medical_License.pdf", "Board_Certifications.pdf"]
+            }
+        ];
+
+        let currentEditingRequest = null;
+        let currentRequestType = null;
+
+        // Initialize the dashboard
+        function initDashboard() {
+            updateStats();
+            renderClinicRequests();
+            renderDoctorRequests();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalClinics = clinicRequests.length;
+            const totalDoctors = doctorRequests.length;
+            const pendingRequests = clinicRequests.filter(r => r.status === 'pending').length + 
+                                  doctorRequests.filter(r => r.status === 'pending').length;
+            const todayActions = Math.floor(Math.random() * 10) + 1; // Mock data
+
+            document.getElementById('totalClinics').textContent = totalClinics;
+            document.getElementById('totalDoctors').textContent = totalDoctors;
+            document.getElementById('pendingRequests').textContent = pendingRequests;
+            document.getElementById('todayActions').textContent = todayActions;
+        }
+
+        // Switch between tabs
+        function switchTab(tab) {
+            // Update tab appearance
+            document.getElementById('clinicsTab').classList.remove('tab-active');
+            document.getElementById('doctorsTab').classList.remove('tab-active');
+            document.getElementById('clinicsTab').classList.add('text-gray-500', 'hover:text-gray-700');
+            document.getElementById('doctorsTab').classList.add('text-gray-500', 'hover:text-gray-700');
+
+            // Hide all content
+            document.getElementById('clinicsContent').classList.add('hidden');
+            document.getElementById('doctorsContent').classList.add('hidden');
+
+            // Show selected tab
+            if (tab === 'clinics') {
+                document.getElementById('clinicsTab').classList.add('tab-active');
+                document.getElementById('clinicsTab').classList.remove('text-gray-500', 'hover:text-gray-700');
+                document.getElementById('clinicsContent').classList.remove('hidden');
+            } else {
+                document.getElementById('doctorsTab').classList.add('tab-active');
+                document.getElementById('doctorsTab').classList.remove('text-gray-500', 'hover:text-gray-700');
+                document.getElementById('doctorsContent').classList.remove('hidden');
+            }
+        }
+
+        // Render clinic requests
+        function renderClinicRequests() {
+            const tbody = document.getElementById('clinicTableBody');
+            const filter = document.getElementById('clinicStatusFilter').value;
+            const searchTerm = document.getElementById('clinicSearchInput').value.toLowerCase();
+            
+            let filteredRequests = clinicRequests;
+            
+            // Apply status filter
+            if (filter !== 'all') {
+                filteredRequests = filteredRequests.filter(request => request.status === filter);
+            }
+            
+            // Apply search filter
+            if (searchTerm) {
+                filteredRequests = filteredRequests.filter(request => 
+                    request.clinicName.toLowerCase().includes(searchTerm) ||
+                    request.ownerName.toLowerCase().includes(searchTerm) ||
+                    request.email.toLowerCase().includes(searchTerm) ||
+                    request.phone.includes(searchTerm) ||
+                    request.specialties.some(specialty => specialty.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            tbody.innerHTML = filteredRequests.map(request => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <span class="text-blue-600 font-medium text-sm">🏥</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${request.clinicName}</div>
+                                <div class="text-sm text-gray-500">${request.ownerName}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${request.email}</div>
+                        <div class="text-sm text-gray-500">${request.phone}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-${request.status}">
+                            ${request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${new Date(request.submittedDate).toLocaleDateString()}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewRequest('clinic', ${request.id})" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                        <button onclick="editRequest('clinic', ${request.id})" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+                        ${request.status === 'pending' ? `
+                            <button onclick="updateStatus('clinic', ${request.id}, 'approved')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button onclick="updateStatus('clinic', ${request.id}, 'rejected')" class="text-red-600 hover:text-red-900 mr-3">Reject</button>
+                        ` : ''}
+                        <button onclick="deleteRequest('clinic', ${request.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render doctor requests
+        function renderDoctorRequests() {
+            const tbody = document.getElementById('doctorTableBody');
+            const filter = document.getElementById('doctorStatusFilter').value;
+            const searchTerm = document.getElementById('doctorSearchInput').value.toLowerCase();
+            
+            let filteredRequests = doctorRequests;
+            
+            // Apply status filter
+            if (filter !== 'all') {
+                filteredRequests = filteredRequests.filter(request => request.status === filter);
+            }
+            
+            // Apply search filter
+            if (searchTerm) {
+                filteredRequests = filteredRequests.filter(request => 
+                    request.firstName.toLowerCase().includes(searchTerm) ||
+                    request.lastName.toLowerCase().includes(searchTerm) ||
+                    request.email.toLowerCase().includes(searchTerm) ||
+                    request.phone.includes(searchTerm) ||
+                    request.specialization.toLowerCase().includes(searchTerm) ||
+                    request.subSpecialty.toLowerCase().includes(searchTerm) ||
+                    request.medicalSchool.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            tbody.innerHTML = filteredRequests.map(request => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                                    <span class="text-green-600 font-medium text-sm">👨‍⚕️</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">Dr. ${request.firstName} ${request.lastName}</div>
+                                <div class="text-sm text-gray-500">${request.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${request.specialization}</div>
+                        <div class="text-sm text-gray-500">${request.subSpecialty || 'General'}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-${request.status}">
+                            ${request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${new Date(request.submittedDate).toLocaleDateString()}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewRequest('doctor', ${request.id})" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                        <button onclick="editRequest('doctor', ${request.id})" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+                        ${request.status === 'pending' ? `
+                            <button onclick="updateStatus('doctor', ${request.id}, 'approved')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button onclick="updateStatus('doctor', ${request.id}, 'rejected')" class="text-red-600 hover:text-red-900 mr-3">Reject</button>
+                        ` : ''}
+                        <button onclick="deleteRequest('doctor', ${request.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter requests
+        function filterRequests(type) {
+            if (type === 'clinic') {
+                renderClinicRequests();
+            } else {
+                renderDoctorRequests();
+            }
+        }
+
+        // Search requests
+        function searchRequests(type) {
+            if (type === 'clinic') {
+                renderClinicRequests();
+            } else {
+                renderDoctorRequests();
+            }
+        }
+
+        // View request details
+        function viewRequest(type, id) {
+            const request = type === 'clinic' ? 
+                clinicRequests.find(r => r.id === id) : 
+                doctorRequests.find(r => r.id === id);
+            
+            if (!request) return;
+
+            currentEditingRequest = null;
+            currentRequestType = type;
+            
+            document.getElementById('modalTitle').textContent = `${type === 'clinic' ? 'Clinic' : 'Doctor'} Request Details`;
+            document.getElementById('saveButton').style.display = 'none';
+            
+            const content = type === 'clinic' ? generateClinicViewContent(request) : generateDoctorViewContent(request);
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('requestModal').classList.remove('hidden');
+        }
+
+        // Edit request
+        function editRequest(type, id) {
+            const request = type === 'clinic' ? 
+                clinicRequests.find(r => r.id === id) : 
+                doctorRequests.find(r => r.id === id);
+            
+            if (!request) return;
+
+            currentEditingRequest = { ...request };
+            currentRequestType = type;
+            
+            document.getElementById('modalTitle').textContent = `Edit ${type === 'clinic' ? 'Clinic' : 'Doctor'} Request`;
+            document.getElementById('saveButton').style.display = 'block';
+            
+            const content = type === 'clinic' ? generateClinicEditContent(request) : generateDoctorEditContent(request);
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('requestModal').classList.remove('hidden');
+        }
+
+        // Add new request
+        function addNewRequest(type) {
+            const newRequest = type === 'clinic' ? {
+                id: Math.max(...clinicRequests.map(r => r.id)) + 1,
+                clinicName: '',
+                ownerName: '',
+                email: '',
+                phone: '',
+                address: '',
+                licenseNumber: '',
+                specialties: [],
+                establishedYear: '',
+                website: '',
+                description: '',
+                status: 'pending',
+                submittedDate: new Date().toISOString().split('T')[0],
+                documents: []
+            } : {
+                id: Math.max(...doctorRequests.map(r => r.id)) + 1,
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                dateOfBirth: '',
+                gender: '',
+                address: '',
+                medicalLicense: '',
+                specialization: '',
+                subSpecialty: '',
+                yearsOfExperience: '',
+                medicalSchool: '',
+                graduationYear: '',
+                residency: '',
+                fellowship: '',
+                boardCertifications: [],
+                currentHospital: '',
+                languages: [],
+                biography: '',
+                status: 'pending',
+                submittedDate: new Date().toISOString().split('T')[0],
+                documents: []
+            };
+
+            currentEditingRequest = newRequest;
+            currentRequestType = type;
+            
+            document.getElementById('modalTitle').textContent = `Add New ${type === 'clinic' ? 'Clinic' : 'Doctor'} Request`;
+            document.getElementById('saveButton').style.display = 'block';
+            
+            const content = type === 'clinic' ? generateClinicEditContent(newRequest) : generateDoctorEditContent(newRequest);
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('requestModal').classList.remove('hidden');
+        }
+
+        // Generate clinic view content
+        function generateClinicViewContent(request) {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Basic Information</h4>
+                        <div><strong>Clinic Name:</strong> ${request.clinicName}</div>
+                        <div><strong>Owner:</strong> ${request.ownerName}</div>
+                        <div><strong>Email:</strong> ${request.email}</div>
+                        <div><strong>Phone:</strong> ${request.phone}</div>
+                        <div><strong>Address:</strong> ${request.address}</div>
+                        <div><strong>License Number:</strong> ${request.licenseNumber}</div>
+                        <div><strong>Established:</strong> ${request.establishedYear}</div>
+                        <div><strong>Website:</strong> ${request.website}</div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Additional Details</h4>
+                        <div><strong>Specialties:</strong> ${request.specialties.join(', ')}</div>
+                        <div><strong>Description:</strong> ${request.description}</div>
+                        <div><strong>Status:</strong> <span class="px-2 py-1 text-xs rounded-full status-${request.status}">${request.status}</span></div>
+                        <div><strong>Submitted:</strong> ${new Date(request.submittedDate).toLocaleDateString()}</div>
+                        <div><strong>Documents:</strong> 
+                            <div class="mt-2 space-y-2">
+                                ${request.documents.map(doc => `
+                                    <div class="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                        <span class="text-sm">${doc}</span>
+                                        <button onclick="viewDocument('${doc}', 'clinic')" class="text-blue-600 hover:text-blue-800 text-sm">
+                                            View Document
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate doctor view content
+        function generateDoctorViewContent(request) {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Personal Information</h4>
+                        <div><strong>Name:</strong> Dr. ${request.firstName} ${request.lastName}</div>
+                        <div><strong>Email:</strong> ${request.email}</div>
+                        <div><strong>Phone:</strong> ${request.phone}</div>
+                        <div><strong>Date of Birth:</strong> ${request.dateOfBirth}</div>
+                        <div><strong>Gender:</strong> ${request.gender}</div>
+                        <div><strong>Address:</strong> ${request.address}</div>
+                        <div><strong>Languages:</strong> ${request.languages.join(', ')}</div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Professional Information</h4>
+                        <div><strong>Medical License:</strong> ${request.medicalLicense}</div>
+                        <div><strong>Specialization:</strong> ${request.specialization}</div>
+                        <div><strong>Sub-specialty:</strong> ${request.subSpecialty}</div>
+                        <div><strong>Experience:</strong> ${request.yearsOfExperience} years</div>
+                        <div><strong>Medical School:</strong> ${request.medicalSchool}</div>
+                        <div><strong>Graduation:</strong> ${request.graduationYear}</div>
+                        <div><strong>Residency:</strong> ${request.residency}</div>
+                        <div><strong>Fellowship:</strong> ${request.fellowship}</div>
+                        <div><strong>Current Hospital:</strong> ${request.currentHospital}</div>
+                        <div><strong>Board Certifications:</strong> ${request.boardCertifications.join(', ')}</div>
+                        <div><strong>Status:</strong> <span class="px-2 py-1 text-xs rounded-full status-${request.status}">${request.status}</span></div>
+                        <div><strong>Submitted:</strong> ${new Date(request.submittedDate).toLocaleDateString()}</div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h4 class="font-semibold text-gray-900 mb-2">Biography</h4>
+                        <p class="text-gray-700">${request.biography}</p>
+                        <h4 class="font-semibold text-gray-900 mt-4 mb-2">Documents</h4>
+                        <div class="space-y-2">
+                            ${request.documents.map(doc => `
+                                <div class="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                    <span class="text-sm">${doc}</span>
+                                    <button onclick="viewDocument('${doc}', 'doctor')" class="text-blue-600 hover:text-blue-800 text-sm">
+                                        View Document
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate clinic edit content
+        function generateClinicEditContent(request) {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Basic Information</h4>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Clinic Name</label>
+                            <input type="text" id="clinicName" value="${request.clinicName}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Owner Name</label>
+                            <input type="text" id="ownerName" value="${request.ownerName}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" value="${request.email}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Phone</label>
+                            <input type="tel" id="phone" value="${request.phone}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">License Number</label>
+                            <input type="text" id="licenseNumber" value="${request.licenseNumber}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Additional Details</h4>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Address</label>
+                            <textarea id="address" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">${request.address}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Specialties (comma-separated)</label>
+                            <input type="text" id="specialties" value="${request.specialties.join(', ')}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Established Year</label>
+                            <input type="text" id="establishedYear" value="${request.establishedYear}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Website</label>
+                            <input type="url" id="website" value="${request.website}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="status" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                                <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Approved</option>
+                                <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">${request.description}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate doctor edit content
+        function generateDoctorEditContent(request) {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Personal Information</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">First Name</label>
+                                <input type="text" id="firstName" value="${request.firstName}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                                <input type="text" id="lastName" value="${request.lastName}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" value="${request.email}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Phone</label>
+                            <input type="tel" id="phone" value="${request.phone}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" value="${request.dateOfBirth}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Gender</label>
+                            <select id="gender" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                                <option value="Male" ${request.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                <option value="Female" ${request.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                <option value="Other" ${request.gender === 'Other' ? 'selected' : ''}>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Languages (comma-separated)</label>
+                            <input type="text" id="languages" value="${request.languages.join(', ')}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-gray-900">Professional Information</h4>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Medical License</label>
+                            <input type="text" id="medicalLicense" value="${request.medicalLicense}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Specialization</label>
+                            <input type="text" id="specialization" value="${request.specialization}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Sub-specialty</label>
+                            <input type="text" id="subSpecialty" value="${request.subSpecialty}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Years of Experience</label>
+                            <input type="number" id="yearsOfExperience" value="${request.yearsOfExperience}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Medical School</label>
+                            <input type="text" id="medicalSchool" value="${request.medicalSchool}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Graduation Year</label>
+                            <input type="text" id="graduationYear" value="${request.graduationYear}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="status" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                                <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Approved</option>
+                                <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Address</label>
+                            <textarea id="address" rows="2" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">${request.address}</textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Residency</label>
+                                <input type="text" id="residency" value="${request.residency}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Fellowship</label>
+                                <input type="text" id="fellowship" value="${request.fellowship}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Current Hospital</label>
+                            <input type="text" id="currentHospital" value="${request.currentHospital}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Board Certifications (comma-separated)</label>
+                            <input type="text" id="boardCertifications" value="${request.boardCertifications.join(', ')}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Biography</label>
+                            <textarea id="biography" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">${request.biography}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Save request changes
+        function saveRequest() {
+            if (!currentEditingRequest || !currentRequestType) return;
+
+            if (currentRequestType === 'clinic') {
+                // Update clinic request
+                currentEditingRequest.clinicName = document.getElementById('clinicName').value;
+                currentEditingRequest.ownerName = document.getElementById('ownerName').value;
+                currentEditingRequest.email = document.getElementById('email').value;
+                currentEditingRequest.phone = document.getElementById('phone').value;
+                currentEditingRequest.address = document.getElementById('address').value;
+                currentEditingRequest.licenseNumber = document.getElementById('licenseNumber').value;
+                currentEditingRequest.specialties = document.getElementById('specialties').value.split(',').map(s => s.trim());
+                currentEditingRequest.establishedYear = document.getElementById('establishedYear').value;
+                currentEditingRequest.website = document.getElementById('website').value;
+                currentEditingRequest.description = document.getElementById('description').value;
+                currentEditingRequest.status = document.getElementById('status').value;
+
+                // Find and update or add the request
+                const existingIndex = clinicRequests.findIndex(r => r.id === currentEditingRequest.id);
+                if (existingIndex >= 0) {
+                    clinicRequests[existingIndex] = currentEditingRequest;
+                } else {
+                    clinicRequests.push(currentEditingRequest);
+                }
+                renderClinicRequests();
+            } else {
+                // Update doctor request
+                currentEditingRequest.firstName = document.getElementById('firstName').value;
+                currentEditingRequest.lastName = document.getElementById('lastName').value;
+                currentEditingRequest.email = document.getElementById('email').value;
+                currentEditingRequest.phone = document.getElementById('phone').value;
+                currentEditingRequest.dateOfBirth = document.getElementById('dateOfBirth').value;
+                currentEditingRequest.gender = document.getElementById('gender').value;
+                currentEditingRequest.address = document.getElementById('address').value;
+                currentEditingRequest.medicalLicense = document.getElementById('medicalLicense').value;
+                currentEditingRequest.specialization = document.getElementById('specialization').value;
+                currentEditingRequest.subSpecialty = document.getElementById('subSpecialty').value;
+                currentEditingRequest.yearsOfExperience = document.getElementById('yearsOfExperience').value;
+                currentEditingRequest.medicalSchool = document.getElementById('medicalSchool').value;
+                currentEditingRequest.graduationYear = document.getElementById('graduationYear').value;
+                currentEditingRequest.residency = document.getElementById('residency').value;
+                currentEditingRequest.fellowship = document.getElementById('fellowship').value;
+                currentEditingRequest.currentHospital = document.getElementById('currentHospital').value;
+                currentEditingRequest.boardCertifications = document.getElementById('boardCertifications').value.split(',').map(s => s.trim());
+                currentEditingRequest.languages = document.getElementById('languages').value.split(',').map(s => s.trim());
+                currentEditingRequest.biography = document.getElementById('biography').value;
+                currentEditingRequest.status = document.getElementById('status').value;
+
+                // Find and update or add the request
+                const existingIndex = doctorRequests.findIndex(r => r.id === currentEditingRequest.id);
+                if (existingIndex >= 0) {
+                    doctorRequests[existingIndex] = currentEditingRequest;
+                } else {
+                    doctorRequests.push(currentEditingRequest);
+                }
+                renderDoctorRequests();
+            }
+
+            updateStats();
+            closeModal();
+            alert('Request saved successfully!');
+        }
+
+        // Update request status
+        function updateStatus(type, id, status) {
+            if (type === 'clinic') {
+                const request = clinicRequests.find(r => r.id === id);
+                if (request) {
+                    request.status = status;
+                    renderClinicRequests();
+                }
+            } else {
+                const request = doctorRequests.find(r => r.id === id);
+                if (request) {
+                    request.status = status;
+                    renderDoctorRequests();
+                }
+            }
+            updateStats();
+            alert(`Request ${status} successfully!`);
+        }
+
+        // Delete request
+        function deleteRequest(type, id) {
+            if (confirm('Are you sure you want to delete this request?')) {
+                if (type === 'clinic') {
+                    const index = clinicRequests.findIndex(r => r.id === id);
+                    if (index >= 0) {
+                        clinicRequests.splice(index, 1);
+                        renderClinicRequests();
+                    }
+                } else {
+                    const index = doctorRequests.findIndex(r => r.id === id);
+                    if (index >= 0) {
+                        doctorRequests.splice(index, 1);
+                        renderDoctorRequests();
+                    }
+                }
+                updateStats();
+                alert('Request deleted successfully!');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('requestModal').classList.add('hidden');
+            currentEditingRequest = null;
+            currentRequestType = null;
+        }
+
+        // View document
+        function viewDocument(documentName, requestType) {
+            document.getElementById('documentModalTitle').textContent = `Document: ${documentName}`;
+            
+            // Generate mock document content based on document type
+            let documentContent = '';
+            
+            if (documentName.toLowerCase().includes('license')) {
+                documentContent = `
+                    <div class="bg-white border-2 border-gray-300 p-8 rounded-lg">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">MEDICAL LICENSE</h2>
+                            <p class="text-gray-600">State Health Department</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span class="font-semibold">License Number:</span>
+                                <span>${requestType === 'clinic' ? 'CL-2024-001' : 'MD-2024-001'}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Issue Date:</span>
+                                <span>January 1, 2024</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Expiry Date:</span>
+                                <span>December 31, 2025</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Status:</span>
+                                <span class="text-green-600 font-semibold">ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <div class="inline-block bg-blue-100 p-4 rounded-full">
+                                <span class="text-4xl">🏥</span>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Official Seal</p>
+                        </div>
+                    </div>
+                `;
+            } else if (documentName.toLowerCase().includes('cv') || documentName.toLowerCase().includes('resume')) {
+                documentContent = `
+                    <div class="bg-white p-8 rounded-lg">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">CURRICULUM VITAE</h2>
+                            <p class="text-gray-600">Professional Resume</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Education</h3>
+                                <div class="mt-2 space-y-2">
+                                    <p><strong>Medical Degree:</strong> Harvard Medical School (2016)</p>
+                                    <p><strong>Residency:</strong> Mayo Clinic (2016-2020)</p>
+                                    <p><strong>Fellowship:</strong> Cleveland Clinic (2020-2021)</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Experience</h3>
+                                <div class="mt-2 space-y-2">
+                                    <p><strong>2021-Present:</strong> Senior Physician, Chicago General Hospital</p>
+                                    <p><strong>2020-2021:</strong> Fellow, Cleveland Clinic</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Certifications</h3>
+                                <div class="mt-2 space-y-1">
+                                    <p>• American Board of Internal Medicine</p>
+                                    <p>• American Board of Cardiovascular Disease</p>
+                                    <p>• BLS/ACLS Certified</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (documentName.toLowerCase().includes('insurance')) {
+                documentContent = `
+                    <div class="bg-white border-2 border-gray-300 p-8 rounded-lg">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">INSURANCE CERTIFICATE</h2>
+                            <p class="text-gray-600">Professional Liability Insurance</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Policy Number:</span>
+                                <span>INS-2024-${Math.floor(Math.random() * 10000)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Coverage Amount:</span>
+                                <span>$2,000,000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Effective Date:</span>
+                                <span>January 1, 2024</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Expiry Date:</span>
+                                <span>December 31, 2024</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Status:</span>
+                                <span class="text-green-600 font-semibold">ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <div class="inline-block bg-green-100 p-4 rounded-full">
+                                <span class="text-4xl">🛡️</span>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Verified Coverage</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                documentContent = `
+                    <div class="bg-white p-8 rounded-lg">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">${documentName.toUpperCase()}</h2>
+                            <p class="text-gray-600">Document Preview</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-gray-700">This is a preview of the document: <strong>${documentName}</strong></p>
+                                <p class="text-gray-600 mt-2">Document contains official information and certifications related to the ${requestType} registration request.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mt-6">
+                                <div class="text-center">
+                                    <div class="inline-block bg-blue-100 p-4 rounded-full">
+                                        <span class="text-4xl">📄</span>
+                                    </div>
+                                    <p class="mt-2 text-sm text-gray-500">Official Document</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="inline-block bg-green-100 p-4 rounded-full">
+                                        <span class="text-4xl">✅</span>
+                                    </div>
+                                    <p class="mt-2 text-sm text-gray-500">Verified</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('documentContent').innerHTML = documentContent;
+            document.getElementById('documentModal').classList.remove('hidden');
+        }
+
+        // Close document modal
+        function closeDocumentModal() {
+            document.getElementById('documentModal').classList.add('hidden');
+        }
+
+        // Profile dropdown functions
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logging out... You would be redirected to the login page.');
+                // In a real application, you would:
+                // - Clear session/tokens
+                // - Redirect to login page
+                // window.location.href = '/login';
+            }
+            document.getElementById('profileDropdown').classList.add('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileButton = event.target.closest('button[onclick="toggleProfileDropdown()"]');
+            
+            if (!profileButton && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</html>

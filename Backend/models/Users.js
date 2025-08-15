@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
 
-mongoose.connect(
-  "mongodb+srv://PrathamKharade:Dadu123@8dscluster.afxgmhi.mongodb.net/SwasthaSetu?retryWrites=true&w=majority&appName=8DsCluster"
-);
+mongoose.connect(process.env.MONGODB_URI);
 
 const UserSchema = new mongoose.Schema(
   {

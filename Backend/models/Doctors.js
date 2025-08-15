@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
 
-mongoose.connect(
-  "mongodb+srv://PrathamKharade:Dadu123@8dscluster.afxgmhi.mongodb.net/SwasthaSetu?retryWrites=true&w=majority&appName=8DsCluster"
-);
+mongoose.connect(process.env.MONGODB_URI);
 
 const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
@@ -16,6 +14,12 @@ const doctorSchema = new mongoose.Schema({
   clinic: { type: String, required: true, trim: true },
   profilePicture: { type: String },
   slots: [String],
+  unavailableSlots: [
+    {
+      date: String, // e.g., "Sun Aug 10 2025"
+      times: [String], // e.g., ["10:00 AM", "10:30 AM"]
+    },
+  ],
 });
 
 // Add passport-local-mongoose plugin
