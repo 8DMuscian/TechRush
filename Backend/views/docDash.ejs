@@ -231,7 +231,7 @@
         const res = await fetch(`/api/booked-slots?date=${encodeURIComponent(formatted)}&doctorId=${doctorId}`);
 
       const {booked,unavailable} = await res.json();
-      populateTimeSlots(booked);
+      populateTimeSlots(booked,unavailable);
     } catch (err) {
       console.error('Failed to load booked slots', err);
     }
@@ -239,7 +239,7 @@
 
 
 
-  function populateTimeSlots(bookedSlots = []) {
+  function populateTimeSlots(bookedSlots = [],unavailableSlots = []) {
     const timeInput = document.getElementById('rescheduleTime');
     timeInput.innerHTML = ''; // Clear previous options
 
@@ -258,6 +258,11 @@
       if (bookedSlots.includes(slot)) {
         option.disabled = true;
         option.textContent += ' (Booked)';
+      }
+
+      if(unavailableSlots.includes(slot)){
+        option.disabled = true;
+        option.textContent += ' (Unavailable)';
       }
 
       timeInput.appendChild(option);
