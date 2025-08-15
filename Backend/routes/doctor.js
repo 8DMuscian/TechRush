@@ -154,6 +154,28 @@ router.get("/dashboard", isDoctorLoggedIn, async (req, res) => {
   }
 });
 
+router.post("/set-unavailable-slots", isDoctorLoggedIn, async (req, res) => {
+  const { date, times } = req.body;
+  const doctorId = req.user._id; // logged-in doctor
+
+  try {
+    const doctor = await Doctor.findById(doctorId);
+
+    let entry = doctor.unavailableSlots.find((u) => u.date === date);
+    if (entry) {
+      entry.times = times;
+    } else {
+      doctor.unavailableSlots.push({ date, times });
+    }
+
+    await doctor.save();
+    res.json({ message: "Unavailable slots updated" });
+  } catch (error) {
+    console.error("Set unavailable slots error:", error);
+    res.status(500).json({ error: "Failed to update unavailable slots" });
+  }
+});
+
 function isDoctorLoggedIn(req, res, next) {
   if (req.isAuthenticated() && req.user.speciality) return next();
   res.redirect("/login");

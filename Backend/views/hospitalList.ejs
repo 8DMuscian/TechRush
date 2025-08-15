@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital Listings</title>
+    <title>Doctor Listings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="website icon" href="/images/logo.png" type="png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
@@ -13,7 +12,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-teal-100 min-h-screen">
+<body class="bg-gray-200/35 min-h-screen">
 
     <!-- Navigation -->
     <nav
@@ -46,8 +45,7 @@
                     </svg>
                     <a href="/"
                         class="text-gray-900  hover:text-blue-600  text-3xl font-medium transition-colors">Home</a>
-                    
-                    <a href="/users/book"
+                    <a href="/book"
                         class="text-gray-900  hover:text-blue-500 text-3xl font-medium transition-colors">Clinics</a>
                     <a href="/#about"
                         class="text-gray-900  hover:text-teal-400 text-3xl font-medium transition-colors">About</a>
@@ -76,13 +74,13 @@
                     </script>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="/"
+                    <a href="/#Home"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Home</a>
                     <a href="/users/book"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Clinics</a>
-                    <a href="/#about"
+                    <a href="/"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">About</a>
-                    <a href="/#contact"
+                    <a href="#contact"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">Contact</a>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
@@ -90,37 +88,55 @@
 
 
                     <!-- Profile Dropdown -->
-                              <div class="relative">
-            <button id="profileDropdown"
+                    <div class="relative">
+                        <button id="profileDropdown"
               class="flex items-center space-x-2 bg-gray-200  hover:bg-gray-700 hover:text-gray-200 text-gray-700  p-2 rounded-lg transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <div id="profileMenu"
-              class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-              <div class="py-2">
-                
-                <a href="/users/dashboard"
-                  class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  My Profile
-                </a>
-                <a href="/book-slot"
-                  class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                    <path fill-rule="evenodd"
-                      d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  My Appointments
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                        </button>
+                        <div id="profileMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                            <div class="py-2">
+                                <a href="/login"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Login
                                 </a>
-                                
+                                <a href="/login"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                                    </svg>
+                                    Register
+                                </a>
+                                <hr class="my-2 border-gray-200 dark:border-gray-600">
+                                <a href="/users/dashboard"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Profile
+                                </a>
+                                <a href="api/book-appointment/"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                        <path fill-rule="evenodd"
+                                            d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Appointments
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -136,111 +152,190 @@
             </div>
         </div>
     </nav>
-
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200 pt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">🏥 Hospital Directory</h1>
-                    <p class="text-gray-600 mt-1">Find and book appointments at top hospitals</p>
+    <!-- Search and Filter Section -->
+    <section class="max-w-7xl mx-auto pt-28 px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white border border-gray-300 rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Search Hospitals</label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search by hospital name, location, or services..."
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            onkeyup="filterHospitals()"
+                        >
+                        <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
                 </div>
-                <div class="text-sm text-gray-500">
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full"><%= hospitals.length %> Hospitals Available</span>
+                
+                <!-- Specialty Filter -->
+                <div class="md:w-64">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Type</label>
+                    <select 
+                        id="typeFilter"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        onchange="filterHospitals()"
+                    >
+                        <option value="">All Types</option>
+                        <option value="General Hospital">General Hospital</option>
+                        <option value="Specialty Hospital">Specialty Hospital</option>
+                        <option value="Medical Center">Medical Center</option>
+                        <option value="Children's Hospital">Children's Hospital</option>
+                        <option value="Emergency Hospital">Emergency Hospital</option>
+                    </select>
+                </div>
+                
+                <!-- Clear Filters Button -->
+                <div class="md:w-32 flex items-end">
+                    <button 
+                        onclick="clearFilters()"
+                        class="w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+                    >
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        Clear
+                    </button>
                 </div>
             </div>
+            
+            <!-- Results Counter -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <p id="resultsCounter" class="text-sm text-gray-600">Showing <%= hospitals.length %> hospitals</p>
+            </div>
         </div>
-    </header>
+    </section>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="space-y-6">
+    <main class="max-w-7xl pb-12 mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="hospitalsList">
             <% hospitals.forEach(hospital => { %>
-  <!-- Hospital Card -->
-  <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-    <div class="flex flex-col md:flex-row">
-      
-      <!-- Hospital Image -->
-      <div class="md:w-80 h-48 md:h-auto overflow-hidden">
-        <% if (hospital.dp) { %>
-          <img src="/<%= hospital.dp %>" alt="<%= hospital.name %>" class="w-full h-full object-cover">
-        <% } else { %>
-          <div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-            <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-          </div>
-        <% } %>
-      </div>
-
-      <!-- Hospital Details -->
-      <div class="flex-1 p-6">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2"><%= hospital.name %></h3>
-            <div class="flex items-center text-gray-600 mb-2">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-              </svg>
-              <span><%= hospital.location %></span>
+            <!-- Hospital Card 1 -->
+            <div class="hospital-card bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden" 
+                 data-name="<%= hospital.name %>" 
+                 data-type="<%= hospital.speciality %>" 
+                 data-location="<%= hospital.location %>"
+                 data-keywords="<%= hospital.speciality %>">
+                <!-- Hospital Image -->
+                <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 2h2v4h4v2h-4v4h-2v-4H7v-2h4V5z"/>
+                    </svg>
+                </div>
+                <!-- Hospital Details -->
+                <div class="p-6">
+                    <div class="text-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1"><%= hospital.name %></h3>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-gray-600 text-sm">
+                            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span><%= hospital.location %></span>
+                        </div>
+                        
+                        <div class="flex items-center text-gray-600 text-sm">
+                            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                            <span><%= hospital.phone %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-gray-700 text-sm mb-2"><strong>Services:</strong></p>
+                        <p class="text-gray-600 text-sm"><%= hospital.speciality %></p>
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <p class="text-sm text-gray-600"><span class="font-medium">Average Wait:</span> 15 minutes</p>
+                    </div>
+                    
+                    <button onclick="location.href='/users/book/<%= hospital._id %>'" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        Book Appointment
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center text-gray-600 mb-2">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-              </svg>
-              <span><%= hospital.phone %></span>
-            </div>
-          </div>
-          <div class="text-right">
-            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mb-2">Open 24/7</span>
-          </div>
-        </div>
-        <div class="mb-4">
-          <p class="text-gray-700 text-sm mb-2"><strong>Specialties:</strong> Emergency Care, Cardiology, Orthopedics, Neurology</p>
-          <p class="text-gray-600 text-sm">Leading medical facility with state-of-the-art equipment and experienced medical professionals.</p>
-        </div>
-        <button onclick="location.href='/users/book/<%= hospital._id %>'" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 flex items-center">
-          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-          </svg>
-          Book Appointment
-        </button>
-      </div>
-    </div>
-  </div>
-<% }); %>
+        <% }) %>
 
-            
-            
         </div>
     </main>
 
- 
+    
+
+   
 
     <script>
-        // Profile dropdown functionality
-        const profileDropdown = document.getElementById('profileDropdown');
-        const profileMenu = document.getElementById('profileMenu');
+        // Search and Filter Functions
+    function filterHospitals() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const selectedType = document.getElementById('typeFilter').value;
+        const hospitalCards = document.querySelectorAll('.hospital-card');
+        let visibleCount = 0;
 
-        function toggleProfileMenu() {
-            profileMenu.classList.toggle('hidden');
-        }
+        hospitalCards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            const location = card.getAttribute('data-location').toLowerCase();
+            const speciality = card.getAttribute('data-keywords').toLowerCase();
+            const type = card.getAttribute('data-type');
 
-        function closeProfileMenu() {
-            profileMenu.classList.add('hidden');
-        }
+            // Check if card matches search term in ANY field
+            const matchesSearch =
+                searchTerm === '' ||
+                name.includes(searchTerm) ||
+                location.includes(searchTerm) ||
+                speciality.includes(searchTerm);
 
-        // Event listeners
-        profileDropdown.addEventListener('click', function (e) {
-            e.stopPropagation();
-            toggleProfileMenu();
+            // Check if card matches type filter
+            const matchesType = selectedType === '' || type === selectedType;
+
+            if (matchesSearch && matchesType) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
         });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function (e) {
-            if (!profileDropdown.contains(e.target) && !profileMenu.contains(e.target)) {
-                closeProfileMenu();
+        updateResultsCounter(visibleCount);
+    }
+
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('typeFilter').value = '';
+            filterHospitals();
+        }
+
+        function updateResultsCounter(count) {
+            const counter = document.getElementById('resultsCounter');
+            if (count === 0) {
+                counter.textContent = 'No hospitals found';
+                counter.className = 'text-sm text-red-600';
+            } else if (count === 1) {
+                counter.textContent = 'Showing 1 hospital';
+                counter.className = 'text-sm text-gray-600';
+            } else {
+                counter.textContent = `Showing ${count} hospitals`;
+                counter.className = 'text-sm text-gray-600';
             }
+        }
+
+        
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateResultsCounter(<%= hospitals.length %>); // Initial count
         });
     </script>
 </html>

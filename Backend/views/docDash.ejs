@@ -217,12 +217,7 @@
         </div>
     </div>
 <script>
-    const slots = [
-    "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-    "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM",
-    "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-    "5:00 PM", "5:30 PM"
-  ];
+    
 
   document.getElementById('rescheduleDate').addEventListener('change', async function () {
     const selectedDate = this.value;
@@ -232,8 +227,10 @@
     if (!doctorId || !selectedDate) return;
 
     try {
-      const res = await fetch(`/api/booked-slots?date=${selectedDate}&doctorId=${doctorId}`);
-      const booked = await res.json();
+      const formatted = new Date(selectedDate).toDateString();
+        const res = await fetch(`/api/booked-slots?date=${encodeURIComponent(formatted)}&doctorId=${doctorId}`);
+
+      const {booked} = await res.json();
       populateTimeSlots(booked);
     } catch (err) {
       console.error('Failed to load booked slots', err);
@@ -502,6 +499,94 @@ async function confirmReschedule() {
         // Initialize the dashboard
         renderAppointments();
 
-        
+
+
+       let selectedUnavailable = [];
+
+// Load available slots from backend
+async function loadAvailableSlots() {
+  const date = document.getElementById("availableSlotsDate").value;
+  if (!date) return;
+
+  const formatted = new Date(date).toDateString();
+  console.log("Loading slots for", formatted);
+
+  const res = await fetch(`/api/booked-slots?date=${encodeURIComponent(formatted)}&doctorId=<%= doctor._id %>`);
+  const { booked, unavailable } = await res.json();
+
+  selectedUnavailable = [...unavailable];
+  renderSlotsGrid(booked, selectedUnavailable);
+}
+
+// Render the slots grid with toggle functionality
+function renderSlotsGrid(booked = [], unavailable = []) {
+  const grid = document.getElementById("availableSlotsGrid");
+  grid.innerHTML = "";
+
+  const slots = [
+    "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
+    "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM",
+    "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
+    "5:00 PM", "5:30 PM"
+  ];
+
+  slots.forEach(slot => {
+    const slotDiv = document.createElement("div");
+    slotDiv.textContent = slot;
+    slotDiv.className = "p-2 text-center rounded-lg cursor-pointer text-sm font-medium transition-colors";
+
+    if (booked.includes(slot)) {
+      slotDiv.classList.add("bg-red-500", "text-white", "cursor-not-allowed");
+    } else if (unavailable.includes(slot)) {
+      slotDiv.classList.add("bg-gray-300", "text-gray-600");
+    } else {
+      slotDiv.classList.add("bg-green-500", "text-white");
+    }
+
+    // Toggle unavailable status on click (only if not booked)
+    if (!booked.includes(slot)) {
+      slotDiv.addEventListener("click", () => {
+        if (selectedUnavailable.includes(slot)) {
+          selectedUnavailable = selectedUnavailable.filter(s => s !== slot);
+        } else {
+          selectedUnavailable.push(slot);
+        }
+        renderSlotsGrid(booked, selectedUnavailable);
+      });
+    }
+
+    grid.appendChild(slotDiv);
+  });
+}
+
+// Save selected unavailable slots to backend
+async function saveAvailableSlots() {
+  const dateInput = document.getElementById("availableSlotsDate").value;
+  if (!dateInput) {
+    alert("Please select a date first.");
+    return;
+  }
+
+  const formattedDate = new Date(dateInput).toDateString();
+
+  try {
+    const res = await fetch("/doctor/set-unavailable-slots", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: formattedDate,
+        times: selectedUnavailable
+      })
+    });
+
+    if (!res.ok) throw new Error("Save failed");
+    alert("Unavailable slots updated!");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save unavailable slots.");
+  }
+}
+
+
     </script>
 </html>

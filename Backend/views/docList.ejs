@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Listings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="website icon" href="/images/logo.png" type="png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
@@ -13,7 +12,8 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-teal-100 min-h-screen">
+<body class="bg-gray-200/35 min-h-screen">
+    
 
     <!-- Navigation -->
     <nav
@@ -46,9 +46,7 @@
                     </svg>
                     <a href="/"
                         class="text-gray-900  hover:text-blue-600  text-3xl font-medium transition-colors">Home</a>
-                    <a href="/"
-                        class="text-gray-900  hover:text-blue-600  text-3xl font-medium transition-colors">Doctors</a>
-                    <a href="/users/book"
+                    <a href="/book"
                         class="text-gray-900  hover:text-blue-500 text-3xl font-medium transition-colors">Clinics</a>
                     <a href="/#about"
                         class="text-gray-900  hover:text-teal-400 text-3xl font-medium transition-colors">About</a>
@@ -77,48 +75,68 @@
                     </script>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="/"
+                    <a href="/#Home"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Home</a>
                     <a href="/users/book"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-blue-500 font-medium transition-colors">Clinics</a>
-                    <a href="#about"
+                    <a href="/"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">About</a>
                     <a href="#contact"
                         class="text-gray-700  hover:text-blue-600 dark:hover:text-teal-400 font-medium transition-colors">Contact</a>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
+                    
 
 
                     <!-- Profile Dropdown -->
-                              <div class="relative">
-            <button id="profileDropdown"
+                    <div class="relative">
+                        <button id="profileDropdown"
               class="flex items-center space-x-2 bg-gray-200  hover:bg-gray-700 hover:text-gray-200 text-gray-700  p-2 rounded-lg transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <div id="profileMenu"
-              class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-              <div class="py-2">
-                
-                <a href="/users/dashboard"
-                  class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  My Profile
-                </a>
-                <a href="/book-slot"
-                  class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                    <path fill-rule="evenodd"
-                      d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  My Appointments
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                        </button>
+                        <div id="profileMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                            <div class="py-2">
+                                <a href="/login"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Login
+                                </a>
+                                <a href="/login"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                                    </svg>
+                                    Register
+                                </a>
+                                <hr class="my-2 border-gray-200 dark:border-gray-600">
+                                <a href="/users/dashboard"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Profile
+                                </a>
+                                <a href="api/book-appointment/"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                        <path fill-rule="evenodd"
+                                            d="M4 5a2 2 0 012-2v1a2 2 0 002 2h8a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    My Appointments
                                 </a>
                             </div>
                         </div>
@@ -136,111 +154,251 @@
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200 pt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">🏥 Doctor Directory</h1>
-                    <p class="text-gray-600 mt-1">Find and book appointments at top hospitals</p>
+    <!-- Search and Filter Section -->
+    <section class="max-w-7xl pt-28 mx-auto px-4 sm:px-6 lg:px-8 py-2">
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-300">
+            <div class="flex flex-col md:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Search Doctors</label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search by doctor name, specialty, or hospital..."
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            onkeyup="filterDoctors()"
+                        >
+                        <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
                 </div>
-                <div class="text-sm text-gray-500">
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full"><%= hospitalDoc.doctors.length %> Doctors Available</span>
+                
+                <!-- Specialty Filter -->
+                <div class="md:w-64">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Specialty</label>
+                    <select 
+                        id="specialtyFilter"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        onchange="filterDoctors()"
+                    >
+                        <option value="">All Speciality</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Dermatology">Dermatology</option>
+                                <option value="Endocrinology">Endocrinology</option>
+                                <option value="Gastroenterology">Gastroenterology</option>
+                                <option value="General-practice">General Practice</option>
+                                <option value="Neurology">Neurology</option>
+                                <option value="Oncology">Oncology</option>
+                                <option value="Orthopedics">Orthopedics</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                                <option value="Psychiatry">Psychiatry</option>
+                                <option value="Radiology">Radiology</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <!-- Clear Filters Button -->
+                <div class="md:w-32 flex items-end">
+                    <button 
+                        onclick="clearFilters()"
+                        class="w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+                    >
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        Clear
+                    </button>
                 </div>
             </div>
+            
+            <!-- Results Counter -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <p id="resultsCounter" class="text-sm text-gray-600">Showing <%= hospitalDoc.doctors.length %> doctors</p>
+            </div>
         </div>
-    </header>
+    </section>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="space-y-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="space-y-6 pt-4 pb-12 my-auto" id="doctorsList">
             <% hospitalDoc.doctors.forEach(doctor => { %>
+                <div class="doctor-card bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden" 
+                    data-name="<%= doctor.name %>" 
+                    data-specialty="<%= doctor.speciality %>" 
+                    data-hospital="<%= hospitalDoc.name %>"
+                    data-keywords="<%= doctor.speciality %> <%= doctor.qualification %> <%= hospitalDoc.name %> <%= doctor.name %>">
+                    <div class="flex flex-col md:flex-row">
+                        <!-- Doctor Image -->
+                        <div class="md:w-80 h-48 md:h-auto overflow-hidden">
+                            <% if (doctor.dp) { %>
+                                <img src="/<%= doctor.dp %>" alt="<%= doctor.name %>" class="w-full h-full object-cover">
+                            <% } else { %>
+                                <div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                                    <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
+                                </div>
+                            <% } %>
+                        </div>
+                        <!-- Doctor Details -->
+                        <div class="flex-1 p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-1">Dr.<%= doctor.name %></h3>
+                                    <p class="text-blue-600 font-medium mb-2"><%= doctor.speciality %></p>
+                                    <div class="flex items-center text-gray-600 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2">
+                                        <path fill-rule="evenodd" d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z" clip-rule="evenodd" />
+                                        </svg>
 
-  <!-- Hospital Card -->
-  <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-    <div class="flex flex-col md:flex-row">
-      
-      <!-- Hospital Image -->
-      <div class="md:w-80 h-48 md:h-auto overflow-hidden">
-        <% if (doctor.dp) { %>
-          <img src="/<%= doctor.dp %>" alt="<%= hospitalDoc.name %>" class="w-full h-full object-cover">
-        <% } else { %>
-          <div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-            <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        <span><%= hospitalDoc.name %></span>
+                                    </div>
+                                    <div class="flex items-center text-gray-600 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2">
+                                        <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
+                                        <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z" />
+                                        <path d="M4.462 19.462c.42-.419.753-.89 1-1.395.453.214.902.435 1.347.662a6.742 6.742 0 0 1-1.286 1.794.75.75 0 0 1-1.06-1.06Z" />
+                                        </svg>
+
+                                        <span><%= doctor.qualification %></span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mb-2">Available</span>
+                                    
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-gray-700 text-sm mb-2"><strong>Specializations:</strong> <%= doctor.speciality %></p>
+                                <p class="text-gray-600 text-sm">Experienced and qualified in providing top medical care.</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-medium">Next Available:</span> Contact Hospital
+                                </div>
+                                <button onclick="location.href='/api/book-appointment/<%= doctor._id %>'" class="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Book Appointment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+                   
+    
+
+    <!-- Success Message -->
+    <div id="successMessage" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden transform transition-all">
+        <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
-          </div>
-        <% } %>
-      </div>
-
-      <!-- Doctor Details -->
-      <div class="flex-1 p-6">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2"><%= doctor.name %></h3>
-            <div class="flex items-center text-gray-600 mb-2">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-              </svg>
-              <span><%= doctor.qualification %></span>
-            </div>
-            <div class="flex items-center text-gray-600 mb-2">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-              </svg>
-              <span><%= doctor.speciality %></span>
-            </div>
-          </div>
-          <div class="text-right">
-            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mb-2">Open 24/7</span>
-          </div>
+            <span>Appointment request submitted successfully!</span>
         </div>
-        <div class="mb-4">
-          <p class="text-gray-700 text-sm mb-2"><strong>Specialties:</strong> Emergency Care, Cardiology, Orthopedics, Neurology</p>
-          <p class="text-gray-600 text-sm">Leading medical facility with state-of-the-art equipment and experienced medical professionals.</p>
-        </div>
-        <button onclick="location.href='/api/book-appointment/<%= doctor._id %>'" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 flex items-center">
-          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-          </svg>
-          Book Appointment
-        </button>
-      </div>
     </div>
-  </div>
-<% }); %>
-
-            
-            
-        </div>
-    </main>
-
- 
 
     <script>
-        // Profile dropdown functionality
-        const profileDropdown = document.getElementById('profileDropdown');
-        const profileMenu = document.getElementById('profileMenu');
+        // Search and Filter Functions
+        function filterDoctors() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedSpecialty = document.getElementById('specialtyFilter').value;
+            const doctorCards = document.querySelectorAll('.doctor-card');
+            let visibleCount = 0;
 
-        function toggleProfileMenu() {
-            profileMenu.classList.toggle('hidden');
+            doctorCards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const specialty = card.getAttribute('data-specialty');
+                
+                // Check if card matches search term
+                const matchesSearch = searchTerm === '' || keywords.includes(searchTerm);
+                
+                // Check if card matches specialty filter
+                const matchesSpecialty = selectedSpecialty === '' || specialty === selectedSpecialty;
+                
+                // Show/hide card based on filters
+                if (matchesSearch && matchesSpecialty) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update results counter
+            updateResultsCounter(visibleCount);
         }
 
-        function closeProfileMenu() {
-            profileMenu.classList.add('hidden');
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('specialtyFilter').value = '';
+            filterDoctors();
         }
 
-        // Event listeners
-        profileDropdown.addEventListener('click', function (e) {
-            e.stopPropagation();
-            toggleProfileMenu();
+        function updateResultsCounter(count) {
+            const counter = document.getElementById('resultsCounter');
+            if (count === 0) {
+                counter.textContent = 'No doctors found';
+                counter.className = 'text-sm text-red-600';
+            } else if (count === 1) {
+                counter.textContent = 'Showing 1 doctor';
+                counter.className = 'text-sm text-gray-600';
+            } else {
+                counter.textContent = `Showing ${count} doctors`;
+                counter.className = 'text-sm text-gray-600';
+            }
+        }
+
+        // Booking Functions
+        function bookAppointment(doctorName, specialty) {
+            document.getElementById('doctorName').textContent = doctorName;
+            document.getElementById('doctorSpecialty').textContent = specialty;
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.getElementById('bookingModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.getElementById('bookingModal').classList.remove('flex');
+        }
+
+        function confirmBooking() {
+            // Get form data
+            const form = document.querySelector('#bookingModal form');
+            const formData = new FormData(form);
+            
+            // Close modal
+            closeModal();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.remove('hidden');
+            
+            // Hide success message after 4 seconds
+            setTimeout(() => {
+                successMessage.classList.add('hidden');
+            }, 4000);
+            
+            // Reset form
+            form.reset();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
         });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function (e) {
-            if (!profileDropdown.contains(e.target) && !profileMenu.contains(e.target)) {
-                closeProfileMenu();
-            }
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateResultsCounter(5); // Initial count
         });
     </script>
 </html>

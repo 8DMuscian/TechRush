@@ -46,7 +46,14 @@ router.post("/book-slot", isLoggedIn, async (req, res) => {
   const userId = req.user._id;
 
   try {
-    // Check if slot already booked
+    const doctor = await Doctors.findById(doctorId);
+    const unavailableEntry = doctor.unavailableSlots.find(
+      (u) => u.date === date
+    );
+    if (unavailableEntry && unavailableEntry.times.includes(time)) {
+      return res.status(400).json({ error: "This slot is unavailable." });
+    }
+
     const existing = await Appointment.findOne({
       doctor: doctorId,
       date,
@@ -56,20 +63,15 @@ router.post("/book-slot", isLoggedIn, async (req, res) => {
       return res.status(400).json({ error: "This slot is already booked." });
     }
 
-    // Create new appointment
     const newAppt = new Appointment({
       doctor: doctorId,
       user: userId,
       date,
       time,
     });
-
     await newAppt.save();
 
-    await Users.findByIdAndUpdate(userId, {
-      $push: { Appt: newAppt._id },
-    });
-
+    await Users.findByIdAndUpdate(userId, { $push: { Appt: newAppt._id } });
     await Doctors.findByIdAndUpdate(doctorId, {
       $push: { slots: newAppt._id.toString() },
     });
@@ -90,7 +92,16 @@ router.get("/booked-slots", isLoggedIn, async (req, res) => {
   try {
     const appointments = await Appointment.find({ doctor: doctorId, date });
     const bookedTimes = appointments.map((appt) => appt.time);
-    res.json(bookedTimes);
+    // Get doctor's unavailable slots for the date
+    const doctor = await Doctors.findById(doctorId);
+    let unavailable = [];
+    if (doctor && doctor.unavailableSlots) {
+      const entry = doctor.unavailableSlots.find((u) => u.date === date);
+      if (entry) unavailable = entry.times;
+    }
+
+    // Return both
+    res.json({ booked: bookedTimes, unavailable });
   } catch (error) {
     console.error("Fetch slots error:", error);
     res.status(500).json({ error: "Failed to fetch booked slots" });

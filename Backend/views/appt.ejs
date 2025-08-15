@@ -351,14 +351,13 @@
     const bookedSlotsByDate = {};
 
 
-    async function fetchBookedSlots(dateKey) {
+  async function fetchBookedSlots(dateKey) {
   const res = await fetch(`/api/booked-slots?date=${encodeURIComponent(dateKey)}&doctorId=${doctorId}`);
-  const booked = await res.json();
-  bookedSlotsByDate[dateKey] = booked;
+  const { booked, unavailable } = await res.json();
+  bookedSlotsByDate[dateKey] = { booked, unavailable };
   generateTimeSlots(dateKey);
-
-  
 }
+
 
 
     
@@ -431,7 +430,7 @@
       ];
 
       // Get booked slots for the selected date
-      const bookedSlots = dateKey ? bookedSlotsByDate[dateKey] || [] : [];
+     const { booked = [], unavailable = [] } = bookedSlotsByDate[dateKey] || {};
 
       // Check if selected date is today
       const today = new Date();
@@ -444,14 +443,14 @@
 
       slots.forEach((slot) => {
         const timeButton = document.createElement("button");
-        const isBooked = bookedSlots.includes(slot);
+        const isBooked = booked.includes(slot);
 
         // Check if slot is in the past or too close to current time (only for today)
         const slotTimeInMinutes = timeToMinutes(slot);
         const isPastOrTooClose =
           isToday && slotTimeInMinutes < minimumBookingTime;
 
-        const isUnavailable = isBooked || isPastOrTooClose;
+        const isUnavailable = booked.includes(slot) || unavailable.includes(slot) || isPastOrTooClose;
 
         timeButton.className = `time-slot p-3 text-center border border-gray-200 rounded-lg font-medium ${isUnavailable ? "booked" : "hover:bg-blue-50 hover:border-blue-300"
           }`;
