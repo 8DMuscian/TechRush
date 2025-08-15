@@ -230,12 +230,14 @@
       const formatted = new Date(selectedDate).toDateString();
         const res = await fetch(`/api/booked-slots?date=${encodeURIComponent(formatted)}&doctorId=${doctorId}`);
 
-      const {booked} = await res.json();
+      const {booked,unavailable} = await res.json();
       populateTimeSlots(booked);
     } catch (err) {
       console.error('Failed to load booked slots', err);
     }
   });
+
+
 
   function populateTimeSlots(bookedSlots = []) {
     const timeInput = document.getElementById('rescheduleTime');
@@ -522,7 +524,7 @@ async function loadAvailableSlots() {
   const { booked, unavailable } = await res.json();
 
   selectedUnavailable = [...unavailable];
-  renderSlotsGrid(booked, selectedUnavailable);
+  renderSlotsGrid(booked, selectedUnavailable,unavailable);
 }
 
 // Render the slots grid with toggle functionality
