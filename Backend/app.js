@@ -19,7 +19,7 @@ const Doctor = require("./models/Doctors");
 passport.use("user-local", User.createStrategy());
 passport.use("doctor-local", Doctor.createStrategy());
 
-// ✅ Custom serialize & deserialize
+// Custom serialize & deserialize
 passport.serializeUser((user, done) => {
   done(null, {
     id: user.id,
